@@ -51,7 +51,7 @@ void task3(void)
     //printf("%d\r%d",f1,f2);
 	printf("%d \r\n\n", f1);
 	printf("%d \r\n\n", f2);
-    while(i<=10)
+    while(i<=30)
     {
         f3=f1+f2;
         printf("%d \r\n\n",f3);
@@ -69,19 +69,20 @@ void task3(void)
 
 int main(void)
 {
-		init_usart1();
+	init_usart1();
 
-		uint32_t user_stacks[TASK_NUM][PSTACK_SIZE_WORDS];
-
+	uint32_t user_stacks[TASK_NUM][PSTACK_SIZE_WORDS];
+	while(1)
+	{
 		init_task(0, (uint32_t *)task0, user_stacks[0] + PSTACK_SIZE_WORDS);
 		init_task(1, (uint32_t *)task1, user_stacks[1] + PSTACK_SIZE_WORDS);
 		init_task(2, (uint32_t *)task2, user_stacks[2] + PSTACK_SIZE_WORDS);
 		init_task(3, (uint32_t *)task3, user_stacks[3] + PSTACK_SIZE_WORDS);
-	while(1)
-	{
+	
 		setup_systick(168e6 / 8 / 100); //10 ms
 		start_user((uint32_t *)task0, user_stacks[0]);
 	}
+
 }
 
 void setup_systick(uint32_t ticks)
